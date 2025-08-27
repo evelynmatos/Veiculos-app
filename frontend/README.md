@@ -28,7 +28,7 @@ Este projeto utiliza o **Angular Material** para oferecer uma interface responsi
 
 ## Como rodar localmente
 
- 1. Clone este repositório:
+1. Clone este repositório:
 
    git clone https://github.com/evelynmatos/Veiculos-app.git
 
