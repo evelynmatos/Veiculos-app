@@ -37,4 +37,12 @@ Este é o backend da aplicação de gerenciamento de veículos, construído com 
 
     npm start
 
-# O servidor vai rodar em http://localhost:3000 #
+## O servidor vai rodar em http://localhost:3000
+
+Endpoints disponíveis: 
+GET - Listar todos os veículos
+GET (:id) - Buscar veículo por ID
+POST - Criar um novo veículo
+PUT - Atualizar veículo por ID
+DELETE - Remover veículo por ID
+
