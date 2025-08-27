@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "placa": "ABC1234",
+    "chassi": "9BWZZZ377VT004251",
+    "renavam": "12345678910",
+    "modelo": "Gol",
+    "marca": "Volkswagen",
+    "ano": 2020
+  },
+  {
+    "id": 2,
+    "placa": "DEF5678",
+    "chassi": "9BG116GW04C400001",
+    "renavam": "98765432100",
+    "modelo": "Onix",
+    "marca": "Chevrolet",
+    "ano": 2021
+  },
+  {
+    "id": 3,
+    "placa": "GHI9012",
+    "chassi": "93YBR48E5JZ123456",
+    "renavam": "10293847566",
+    "modelo": "Civic",
+    "marca": "Honda",
+    "ano": 2019
+  },
+  {
+    "id": 4,
+    "placa": "JKL3456",
+    "chassi": "8APZZZ376FV100001",
+    "renavam": "56473829101",
+    "modelo": "Corolla",
+    "marca": "Toyota",
+    "ano": 2022
+  },
+  {
+    "id": 5,
+    "placa": "MNO7890",
+    "chassi": "9BWZZZ377VT000002",
+    "renavam": "67890543212",
+    "modelo": "Argo",
+    "marca": "Fiat",
+    "ano": 2021
+  },
+  {
+    "id": 6,
+    "placa": "PQR1234",
+    "chassi": "9BD171ZC04C123456",
+    "renavam": "45612378900",
+    "modelo": "HB20",
+    "marca": "Hyundai",
+    "ano": 2020
+  },
+  {
+    "id": 7,
+    "placa": "STU5678",
+    "chassi": "8AGZZZ123LF100001",
+    "renavam": "15935748620",
+    "modelo": "Compass",
+    "marca": "Jeep",
+    "ano": 2023
+  },
+  {
+    "id": 8,
+    "placa": "VWX9012",
+    "chassi": "93YBR48E5HZ654321",
+    "renavam": "32165498777",
+    "modelo": "Renegade",
+    "marca": "Jeep",
+    "ano": 2022
+  },
+  {
+    "id": 9,
+    "placa": "YZA3456",
+    "chassi": "9BG116GW04C400099",
+    "renavam": "88997766550",
+    "modelo": "Kwid",
+    "marca": "Renault",
+    "ano": 2018
+  },
+  {
+    "id": 10,
+    "placa": "BCD7890",
+    "chassi": "9BWZZZ377VT000123",
+    "renavam": "33445566778",
+    "modelo": "Sandero",
+    "marca": "Renault",
+    "ano": 2020
+  },
+  {
+    "id": 11,
+    "placa": "EFG1234",
+    "chassi": "8AGZZZ376GV100777",
+    "renavam": "99887766554",
+    "modelo": "Tracker",
+    "marca": "Chevrolet",
+    "ano": 2021
+  }
+]
