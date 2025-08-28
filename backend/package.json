@@ -1,7 +1,7 @@
 {
   "name": "backend-info-veiculos",
   "version": "1.0.0",
-  "description": "",
+  "description": "Este é o backend da aplicação de gerenciamento de veículos, construído com Node.js e Express.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0"
   }
 }

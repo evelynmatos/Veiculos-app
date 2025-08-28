@@ -1,7 +1,9 @@
 const express = require("express");
+const cors = require('cors');
 const fs = require("fs");
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const FILE_PATH = "./veiculos.json";
 const PORT = process.env.PORT || 3000;
@@ -19,7 +21,7 @@ function writeData(data) {
 
 // IMPLEMENTAÇÃO DO CRUD
 
-// GET - Listar todos veículo
+// GET - Listar todos veículos
 app.get("/veiculos", (req, res) => {
   const veiculos = readData();
   res.json(veiculos);
@@ -33,7 +35,7 @@ app.get("/veiculos/:id", (req, res) => {
   res.json(veiculo);
 });
 
-// POST - Criar novo veículo
+// POST - Criar veículo
 app.post("/veiculos", (req, res) => {
   const veiculos = readData();
   const novo = { id: Date.now(), ...req.body };
