@@ -1,0 +1,47 @@
+.container {
+  padding: 37px;
+  margin-top: 30px;
+
+  .title {
+    font-size: 27px;
+    font-weight: bold;
+    color: #000;
+    font-family: system-ui;
+  }
+
+  .buttonRegister {
+    margin: 15px 0;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .custom-button {
+    background-color: transparent;
+    color: #ffbc04;
+    border: 2px solid #ffbc04;
+    border-radius: 1rem;
+  }
+
+  .custom-button:hover {
+    background-color: transparent;
+    color: #007bff;
+    border: 2px solid #007bff;
+    border-radius: 1rem;
+  }
+
+  .icon-button mat-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .icon-button:hover mat-icon {
+    transform: scale(1.4);
+  }
+
+  .edit mat-icon:hover {
+    color: #007bff;
+  }
+
+  .delete mat-icon:hover {
+    color: #ec0000;
+  }
+}
