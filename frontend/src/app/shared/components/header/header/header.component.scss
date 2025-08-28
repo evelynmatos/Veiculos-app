@@ -1,0 +1,50 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  height: 98px;
+  z-index: 1000;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+
+  .title {
+    font-size: 27px;
+    font-weight: bold;
+    color: black;
+    font-family: system-ui;
+  }
+
+  .icon {
+    padding-left: 150px;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  button {
+    color: black;
+    font-family: system-ui;
+    margin-right: 25px;
+    background-color: transparent;
+  }
+
+  button:hover {
+    color: white;
+    background-color: #ffbc04;
+    border: none;
+  }
+
+  .mat-icon {
+    color: black;
+  }
+}
