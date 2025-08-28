@@ -14,8 +14,8 @@
   .title {
     font-size: 27px;
     font-weight: bold;
-    color: black;
-    font-family: system-ui;
+    color: #000;
+    font-family:system-ui;
   }
 
   .icon {
@@ -32,7 +32,7 @@
   }
 
   button {
-    color: black;
+    color: #000;
     font-family: system-ui;
     margin-right: 25px;
     background-color: transparent;
@@ -45,6 +45,6 @@
   }
 
   .mat-icon {
-    color: black;
+    color: #000;
   }
 }
