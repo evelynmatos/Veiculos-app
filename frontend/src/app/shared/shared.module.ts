@@ -8,8 +8,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
+  imports: [CommonModule],
   exports: [
     MatToolbarModule,
     MatButtonModule,

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Vehicle } from './vehicles.interface';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -6,6 +6,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../../shared/shared.module';
 import { VehiclesService } from '../../../vehicles.service';
+import { SpinnerService } from '../../../../shared/spinner/spinner.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -16,11 +18,14 @@ import { VehiclesService } from '../../../vehicles.service';
 export class VehiclesListComponent {
   displayedColumns = ['id', 'placa', 'chassi', 'renavam', 'modelo', 'marca', 'ano', 'acoes'];
   dataSource = new MatTableDataSource<Vehicle>([]);
+  carregando = true;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private vehiclesService: VehiclesService, private cdr: ChangeDetectorRef) {}
+  constructor(private vehiclesService: VehiclesService, private cdr: ChangeDetectorRef, private spinnerService: SpinnerService,
+    private ngZone: NgZone) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -30,7 +35,27 @@ export class VehiclesListComponent {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
+  }
 
+  private loadVehicles() {
+    this.spinnerService.startSpinner();
+    this.vehiclesService.getVehicles().subscribe({
+      next: (listVehicles) => {
+        this.dataSource.data = listVehicles;
+        this.carregando = false;
+        this.ngZone.onStable.pipe(take(1)).subscribe(() => {
+          this.updateTable();
+          this.spinnerService.stopSpinner();
+        });
+      },
+      error: () => {
+        this.carregando = false;
+        this.spinnerService.stopSpinner();
+      }
+    });
+  }
+
+  updateTable() {
     this.sort.active = 'id';
     this.sort.direction = 'asc';
     this.sort.sortChange.emit({
@@ -39,16 +64,7 @@ export class VehiclesListComponent {
     });
   }
 
-  private loadVehicles() {
-    this.vehiclesService.getVehicles().subscribe({
-      next: (listVehicles) => {
-        this.dataSource.data = listVehicles;
-        this.cdr.detectChanges();
-      },
-    });
-  }
-
-  registerVehicle(){
+  registerVehicle() {
     console.log("registerVehicle");
   }
 

@@ -1,5 +1,6 @@
 <app-header></app-header>
 
-<main class="main-container">
-  <router-outlet></router-outlet>
+<main class="main-container" [@fadeAnimation]="prepareRoute(outlet) ? prepareRoute(outlet) : ''">
+  <app-spinner></app-spinner>
+  <router-outlet #outlet="outlet"></router-outlet>
 </main>

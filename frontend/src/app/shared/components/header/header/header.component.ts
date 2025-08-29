@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,10 +10,10 @@ import { Router } from '@angular/router';
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule],
+  imports: [MatToolbarModule, MatIconModule, MatButtonModule, CommonModule],
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   goToHome() {
     this.router.navigate(['/']);
