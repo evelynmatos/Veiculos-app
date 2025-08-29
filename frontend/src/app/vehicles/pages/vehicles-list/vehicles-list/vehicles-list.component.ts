@@ -8,6 +8,8 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { VehiclesService } from '../../../vehicles.service';
 import { SpinnerService } from '../../../../shared/spinner/spinner.service';
 import { take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -24,8 +26,9 @@ export class VehiclesListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private vehiclesService: VehiclesService, private cdr: ChangeDetectorRef, private spinnerService: SpinnerService,
-    private ngZone: NgZone) { }
+  constructor(private vehiclesService: VehiclesService, private cdr: ChangeDetectorRef,
+    private spinnerService: SpinnerService,
+    private ngZone: NgZone, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -72,7 +75,18 @@ export class VehiclesListComponent {
     console.log(vehicle);
   }
 
-  deleteVehicle(vehicle: Vehicle) {
-    console.log(vehicle);
+  public deleteVehicle(vehicleId: Vehicle) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Tem certeza que deseja excluir este veículo?'
+      }
+    });
+    dialogRef.afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this.vehiclesService.deleteVehicle(vehicleId.id).subscribe(() => {
+        this.dataSource.data = this.dataSource.data.filter(v => v.id !== vehicleId.id);
+        });
+      }
+    });
   }
 }

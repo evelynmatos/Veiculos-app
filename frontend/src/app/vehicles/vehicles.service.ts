@@ -14,7 +14,11 @@ export class VehiclesService {
     return this.http.get<Vehicle[]>(`${environment.apiUrl}/veiculos`);  
   }
   
-  getVehicleById(id: number): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${environment.apiUrl}/veiculos/${id}`);  
+  getVehicleById(vehicleId: number): Observable<Vehicle> {
+    return this.http.get<Vehicle>(`${environment.apiUrl}/veiculos/${vehicleId}`);  
+  }
+
+  deleteVehicle(vehicleId: number): Observable<Vehicle> {
+    return this.http.delete<Vehicle>(`${environment.apiUrl}/veiculos/${vehicleId}`);  
   }
 }
