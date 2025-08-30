@@ -9,7 +9,8 @@ import { VehiclesService } from '../../../vehicles.service';
 import { SpinnerService } from '../../../../shared/spinner/spinner.service';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { EditVehicleDialogComponent } from '../../../../shared/components/edit-vehicle-dialog/edit-vehicle-dialog.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -71,8 +72,24 @@ export class VehiclesListComponent {
     console.log("registerVehicle");
   }
 
-  editVehicle(vehicle: Vehicle) {
-    console.log(vehicle);
+  public editVehicle(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(EditVehicleDialogComponent, {
+      width: '400px',
+      data: { ...vehicle }
+    });
+
+    dialogRef.afterClosed().subscribe(updatedVehicle => {
+      if (updatedVehicle) {       
+        this.vehiclesService.updateVehicle(updatedVehicle).subscribe(() => {
+          const index = this.dataSource.data.findIndex(v => v.id === updatedVehicle.id);
+          if (index > -1) {
+            this.dataSource.data[index] = updatedVehicle;
+            this.dataSource._updateChangeSubscription();
+          }
+        });
+      }
+    });
+
   }
 
   public deleteVehicle(vehicleId: Vehicle) {
@@ -84,7 +101,7 @@ export class VehiclesListComponent {
     dialogRef.afterClosed().subscribe(confirm => {
       if (confirm) {
         this.vehiclesService.deleteVehicle(vehicleId.id).subscribe(() => {
-        this.dataSource.data = this.dataSource.data.filter(v => v.id !== vehicleId.id);
+          this.dataSource.data = this.dataSource.data.filter(v => v.id !== vehicleId.id);
         });
       }
     });
