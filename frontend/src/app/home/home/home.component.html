@@ -1,0 +1,13 @@
+<div class="embla" emblaCarousel [options]="options">
+  <div class="embla__container">
+    <div class="embla__slide" *ngFor="let slide of slides">
+      <img [src]="slide.img" [alt]="slide.title" />
+    </div>
+  </div>
+  <button class="embla__button embla__button--prev" (click)="prev()" aria-label="Previous slide">
+    ‹
+  </button>
+  <button class="embla__button embla__button--next" (click)="next()" aria-label="Next slide">
+    ›
+  </button>
+</div>
