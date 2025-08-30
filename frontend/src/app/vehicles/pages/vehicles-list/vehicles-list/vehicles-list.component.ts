@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Vehicle } from './vehicles.interface';
+import { Vehicle } from '../../vehicles.interface';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,7 @@ import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { EditVehicleDialogComponent } from '../../../../shared/components/edit-vehicle-dialog/edit-vehicle-dialog.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -29,7 +30,7 @@ export class VehiclesListComponent {
 
   constructor(private vehiclesService: VehiclesService, private cdr: ChangeDetectorRef,
     private spinnerService: SpinnerService,
-    private ngZone: NgZone, private dialog: MatDialog) { }
+    private ngZone: NgZone, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -68,8 +69,8 @@ export class VehiclesListComponent {
     });
   }
 
-  registerVehicle() {
-    console.log("registerVehicle");
+  goToRegisterVehicles() {
+    this.router.navigate(['/register-vehicles']);
   }
 
   public editVehicle(vehicle: Vehicle) {
@@ -79,7 +80,7 @@ export class VehiclesListComponent {
     });
 
     dialogRef.afterClosed().subscribe(updatedVehicle => {
-      if (updatedVehicle) {       
+      if (updatedVehicle) {
         this.vehiclesService.updateVehicle(updatedVehicle).subscribe(() => {
           const index = this.dataSource.data.findIndex(v => v.id === updatedVehicle.id);
           if (index > -1) {

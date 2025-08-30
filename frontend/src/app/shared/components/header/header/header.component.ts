@@ -22,4 +22,8 @@ export class HeaderComponent {
   goToVehicles() {
     this.router.navigate(['/vehicles']);
   }
+
+  goToRegisterVehicles() {
+    this.router.navigate(['/register-vehicles']);
+  }
 }

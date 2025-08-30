@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Vehicle } from '../../../vehicles/pages/vehicles-list/vehicles-list/vehicles.interface';
+import { Vehicle } from '../../../vehicles/pages/vehicles.interface';
 import { SharedModule } from '../../shared.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
