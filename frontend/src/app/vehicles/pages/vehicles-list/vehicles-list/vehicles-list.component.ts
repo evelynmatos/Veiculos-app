@@ -74,7 +74,7 @@ export class VehiclesListComponent {
 
   public editVehicle(vehicle: Vehicle) {
     const dialogRef = this.dialog.open(EditVehicleDialogComponent, {
-      width: '400px',
+      width: '800px',
       data: { ...vehicle }
     });
 
@@ -89,7 +89,6 @@ export class VehiclesListComponent {
         });
       }
     });
-
   }
 
   public deleteVehicle(vehicleId: Vehicle) {
