@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Vehicle } from '../../vehicles.interface';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { CommonModule } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { SharedModule } from '../../../../shared/shared.module';
 import { VehiclesService } from '../../../vehicles.service';
 import { SpinnerService } from '../../../../shared/spinner/spinner.service';
@@ -16,7 +15,7 @@ import { NotificationService } from '../../../../core/services/notification.serv
 
 @Component({
   selector: 'app-vehicles-list',
-  imports: [CommonModule, SharedModule, MatPaginatorModule, MatSortModule],
+  imports: [SharedModule],
   templateUrl: './vehicles-list.component.html',
   styleUrl: './vehicles-list.component.scss',
 })
@@ -55,10 +54,10 @@ export class VehiclesListComponent {
           this.notificationService.success('Veículos carregados com sucesso!')
         });
       },
-      error: () => {
+      error: (err) => {
         this.carregando = false;
         this.spinnerService.stopSpinner();
-        this.notificationService.error('Não foi possível carregar os veículos.')
+        this.notificationService.error('Não foi possível carregar os veículos.', err)
       }
     });
   }
@@ -82,23 +81,33 @@ export class VehiclesListComponent {
       data: { ...vehicle }
     });
 
+    this.spinnerService.startSpinner();
+
     dialogRef.afterClosed().subscribe(updatedVehicle => {
-      if (updatedVehicle) {
-        this.vehiclesService.updateVehicle(updatedVehicle).subscribe(() => {
+    if (updatedVehicle && JSON.stringify(updatedVehicle) !== JSON.stringify(vehicle)) {
+      this.vehiclesService.updateVehicle(updatedVehicle).subscribe({
+        next: () => {
           const index = this.dataSource.data.findIndex(v => v.id === updatedVehicle.id);
           if (index > -1) {
             this.dataSource.data[index] = updatedVehicle;
             this.dataSource._updateChangeSubscription();
           }
-        });
-      }
-    });
+          this.notificationService.success('Veículo atualizado com sucesso!')
+          this.spinnerService.stopSpinner();
+        },
+        error: (err) => {
+          this.notificationService.error('Não foi possível atualizar o veículo.', err)
+          this.spinnerService.stopSpinner();
+        }
+      });
+    }
+  });
   }
 
   public deleteVehicle(vehicleId: Vehicle) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        message: 'Tem certeza que deseja excluir este veículo?'
+        message: '<strong>Tem certeza que deseja excluir este veículo?</strong><br>Esta ação é permanente e não poderá ser desfeita.'
       }
     });
     dialogRef.afterClosed().subscribe(confirm => {
@@ -109,10 +118,10 @@ export class VehiclesListComponent {
             this.dataSource.data = this.dataSource.data.filter(v => v.id !== vehicleId.id);
             this.spinnerService.stopSpinner();
             this.notificationService.success('Veículo removido com sucesso!')
-          }, error: () => {
+          }, error: (err) => {
             this.carregando = false;
             this.spinnerService.stopSpinner();
-            this.notificationService.error('Não foi possível remover o veículo.')
+            this.notificationService.error('Não foi possível remover o veículo.', err)
           }
         });
       }

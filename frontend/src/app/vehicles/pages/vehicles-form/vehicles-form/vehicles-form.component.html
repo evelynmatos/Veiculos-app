@@ -1,75 +1,80 @@
-<div class="form-container">
-  <h2>Cadastro de Veículo</h2>
-  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
-    <div class="form-grid">
-      <div class="form-field">
-        <label>Placa</label>
-        <input formControlName="placa" (input)="removeSpaces('placa')" maxlength="7"/>
-        <small *ngIf="vehicleForm.get('placa')?.invalid && vehicleForm.get('placa')?.touched">
-          Placa deve ter 7 caracteres alfanuméricos.
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label>Chassi</label>
-        <input formControlName="chassi" (input)="removeSpaces('chassi')" maxlength="17"/>
-        <small *ngIf="vehicleForm.get('chassi')?.invalid && vehicleForm.get('chassi')?.touched">
-          Chassi deve conter 17 caracteres alfanuméricos.
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label>Renavam</label>
-        <input formControlName="renavam" (input)="removeSpaces('renavam')" maxlength="11" pattern="\d*"/>
-        <small *ngIf="vehicleForm.get('renavam')?.invalid && vehicleForm.get('renavam')?.touched">
-          Renavam deve conter 11 dígitos numéricos.
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label>Modelo</label>
-        <input formControlName="modelo" (input)="removeSpaces('modelo')" />
-        <small *ngIf="vehicleForm.get('modelo')?.invalid && vehicleForm.get('modelo')?.touched">
-          Modelo deve conter letras e/ou números.
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label>Marca</label>
-        <input formControlName="marca" (input)="removeSpaces('marca')" />
-        <small *ngIf="vehicleForm.get('marca')?.invalid && vehicleForm.get('marca')?.touched">
-          Marca deve conter apenas letras.
-        </small>
-      </div>
-
-      <div class="form-field">
-        <label>Ano</label>
-        <input formControlName="ano" (input)="removeSpaces('ano')" maxlength="4"/>
-        <small *ngIf="vehicleForm.get('ano')?.invalid && vehicleForm.get('ano')?.touched">
-          Ano deve conter 4 dígitos numéricos.
-        </small>
-      </div>
+<div class="form-wrapper">
+  <div class="form-container-register">
+    <div class="dialog-header">
+      <h2>Cadastro de Veículo</h2>
     </div>
+  </div>
+  <div class="form-container">
+    <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Placa</label>
+          <input formControlName="placa" (input)="onInputChange('placa')" maxlength="7" />
+          <small *ngIf="vehicleForm.get('placa')?.invalid && vehicleForm.get('placa')?.touched">
+            Placa deve ter 7 caracteres alfanuméricos.
+          </small>
+        </div>
 
-    <button type="submit" [disabled]="vehicleForm.invalid">Cadastrar</button>
-  </form>
+        <div class="form-field">
+          <label>Chassi</label>
+          <input formControlName="chassi" (input)="onInputChange('chassi')" maxlength="17" />
+          <small *ngIf="vehicleForm.get('chassi')?.invalid && vehicleForm.get('chassi')?.touched">
+            Chassi deve conter 17 caracteres alfanuméricos.
+          </small>
+        </div>
 
-  <table *ngIf="vehicles.length > 0">
-    <thead>
-      <tr>
-        <th *ngFor="let col of displayedColumns">{{ col | titlecase }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let v of vehicles">
-        <td>{{ v.id }}</td>
-        <td>{{ v.placa }}</td>
-        <td>{{ v.chassi }}</td>
-        <td>{{ v.renavam }}</td>
-        <td>{{ v.modelo }}</td>
-        <td>{{ v.marca }}</td>
-        <td>{{ v.ano }}</td>
-      </tr>
-    </tbody>
-  </table>
+        <div class="form-field">
+          <label>Renavam</label>
+          <input formControlName="renavam" (input)="onInputChange('renavam')" maxlength="11" pattern="\d*" />
+          <small *ngIf="vehicleForm.get('renavam')?.invalid && vehicleForm.get('renavam')?.touched">
+            Renavam deve conter 11 dígitos numéricos.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label>Modelo</label>
+          <input formControlName="modelo" (input)="onInputChange('modelo')" />
+          <small *ngIf="vehicleForm.get('modelo')?.invalid && vehicleForm.get('modelo')?.touched">
+            Modelo deve conter letras e/ou números.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label>Marca</label>
+          <input formControlName="marca" (input)="onInputChange('marca')" />
+          <small *ngIf="vehicleForm.get('marca')?.invalid && vehicleForm.get('marca')?.touched">
+            Marca deve conter apenas letras.
+          </small>
+        </div>
+
+        <div class="form-field">
+          <label>Ano</label>
+          <input formControlName="ano" (input)="onInputChange('ano')" maxlength="4" />
+          <small *ngIf="vehicleForm.get('ano')?.invalid && vehicleForm.get('ano')?.touched">
+            Ano deve conter 4 dígitos numéricos.
+          </small>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="vehicleForm.invalid">Cadastrar</button>
+    </form>
+
+    <table *ngIf="vehicles.length > 0">
+      <thead>
+        <tr>
+          <th *ngFor="let col of displayedColumns">{{ col | titlecase }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let v of vehicles">
+          <td>{{ v.placa }}</td>
+          <td>{{ v.chassi }}</td>
+          <td>{{ v.renavam }}</td>
+          <td>{{ v.modelo }}</td>
+          <td>{{ v.marca }}</td>
+          <td>{{ v.ano }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-confirm-dialog',
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [SharedModule],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss'
 })

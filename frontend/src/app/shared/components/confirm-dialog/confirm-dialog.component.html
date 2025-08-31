@@ -1,8 +1,13 @@
-<h2 mat-dialog-title>Confirmação</h2>
-<mat-dialog-content>
-    <p>{{ data.message }}</p>
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button (click)="cancelDialog()">Cancelar</button>
-    <button mat-button color="warn" (click)="confirmDialog()">Excluir</button>
-</mat-dialog-actions>
+<div class="confirm-dialog-container">
+    <div class="dialog-header">
+        <mat-icon>warning</mat-icon>
+        <h2>Excluir Veículo</h2>
+    </div>
+    <mat-dialog-content>
+        <p [innerHTML]="data.message"></p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-flat-button class="buttonCancelDialog" (click)="cancelDialog()">Cancelar</button>
+        <button mat-flat-button class="buttonDeleteVehicle" (click)="confirmDialog()">Excluir</button>
+    </mat-dialog-actions>
+</div>

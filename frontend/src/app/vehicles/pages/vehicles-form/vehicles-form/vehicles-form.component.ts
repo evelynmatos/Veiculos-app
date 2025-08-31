@@ -1,57 +1,59 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Vehicle } from '../../vehicles.interface';
-import { CommonModule, getLocaleMonthNames } from '@angular/common';
 import { SharedModule } from '../../../../shared/shared.module';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { VehiclesService } from '../../../vehicles.service';
+import { DateUtils } from '../../../../shared/utils/date.utils';
+import { VehicleFormFactory } from '../../../../shared/forms/vehicle-form-factory';
+import { formatVehicleData } from '../../../../shared/utils/vehicle.utils';
+import { SpinnerService } from '../../../../shared/spinner/spinner.service';
+import { NotificationService } from '../../../../core/services/notification.service';
+import { removeSpaces } from '../../../../shared/utils/string.utils';
 
 @Component({
   selector: 'app-vehicles-form',
-  imports: [CommonModule, SharedModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule,],
+  imports: [SharedModule],
   templateUrl: './vehicles-form.component.html',
   styleUrl: './vehicles-form.component.scss'
 })
 export class VehiclesFormComponent {
   vehicleForm: FormGroup;
   vehicles: Vehicle[] = [];
-  displayedColumns = ['id', 'placa', 'chassi', 'renavam', 'modelo', 'marca', 'ano'];
-  currentYear = new Date().getFullYear();
-  maxYear = this.currentYear + 1;
+  displayedColumns = ['placa', 'chassi', 'renavam', 'modelo', 'marca', 'ano'];
+  currentYear = DateUtils.getCurrentYear();
+  maxYear = DateUtils.getMaxYear();
 
-  constructor(private fb: FormBuilder, private vehiclesService: VehiclesService) {
-    this.vehicleForm = this.fb.group({
-      placa: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{3}[0-9]{1}[A-Za-z]{1}[0-9]{2}$/)]],
-      chassi: ['', [Validators.required, Validators.pattern(/^[A-HJ-NPR-Z0-9]{17}$/)]],
-      renavam: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
-      modelo: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9\s]+$/)]],
-      marca: ['', [Validators.required, Validators.pattern(/^[A-Za-zÀ-ÿ\s]+$/)]],
-      ano: ['', [Validators.required, Validators.pattern(/^\d{4}$/), Validators.min(1980),
-      Validators.max(this.maxYear)]]
-    });
+  constructor(private fb: FormBuilder, private vehiclesService: VehiclesService,
+    private spinnerService: SpinnerService, private notificationService: NotificationService,) {
+    this.vehicleForm = VehicleFormFactory.createForm(this.fb);
   }
 
   onSubmit() {
     if (this.vehicleForm.invalid) return;
-    
-    this.vehiclesService.createVehicle(this.vehicleForm.value).subscribe({
-    next: (createdVehicle) => {
-      console.log('Veículo criado com sucesso:', createdVehicle);
-      this.vehicles.push(createdVehicle); 
-      this.vehicleForm.reset();
-    },
-    error: (err) => {
-      console.error('Erro ao criar veículo:', err);
-    }
-  });
+
+    this.spinnerService.startSpinner();
+
+    const formattedData = formatVehicleData(this.vehicleForm.value);
+
+    this.vehiclesService.createVehicle(formattedData).subscribe({
+      next: (createdVehicle) => {
+        this.spinnerService.stopSpinner();
+        this.vehicles.push(createdVehicle);
+        this.vehicleForm.reset();
+        this.notificationService.success('Veículo cadatrado com sucesso!')
+      },
+      error: (err) => {
+        this.spinnerService.stopSpinner();
+        this.notificationService.error('Não foi possível cadastrar o veículo.', err)
+      }
+    });
   }
 
-  removeSpaces(controlName: string) {
-    const value = this.vehicleForm.get(controlName)?.value || '';
-    this.vehicleForm.get(controlName)?.setValue(value.replace(/\s/g, ''));
+  onInputChange(controlName: string) {
+    const control = this.vehicleForm.get(controlName);
+    if (control) {
+      control.setValue(removeSpaces(control.value));
+    }
   }
 
 }

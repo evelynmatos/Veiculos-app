@@ -1,12 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerService } from './spinner.service';
+import { SharedModule } from '../shared.module';
 
 @Component({
   selector: 'app-spinner',
   imports: [
-    CommonModule,
+    SharedModule,
     MatProgressSpinnerModule
   ],
   templateUrl: './spinner.component.html',
