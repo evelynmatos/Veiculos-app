@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditVehicleDialogComponent } from '../../../../shared/components/edit-vehicle-dialog/edit-vehicle-dialog.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -29,7 +30,7 @@ export class VehiclesListComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private vehiclesService: VehiclesService, private cdr: ChangeDetectorRef,
-    private spinnerService: SpinnerService,
+    private spinnerService: SpinnerService, private notificationService: NotificationService,
     private ngZone: NgZone, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
@@ -51,11 +52,13 @@ export class VehiclesListComponent {
         this.ngZone.onStable.pipe(take(1)).subscribe(() => {
           this.updateTable();
           this.spinnerService.stopSpinner();
+          this.notificationService.success('Veículos carregados com sucesso!')
         });
       },
       error: () => {
         this.carregando = false;
         this.spinnerService.stopSpinner();
+        this.notificationService.error('Não foi possível carregar os veículos.')
       }
     });
   }
@@ -100,8 +103,17 @@ export class VehiclesListComponent {
     });
     dialogRef.afterClosed().subscribe(confirm => {
       if (confirm) {
-        this.vehiclesService.deleteVehicle(vehicleId.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(v => v.id !== vehicleId.id);
+        this.spinnerService.startSpinner();
+        this.vehiclesService.deleteVehicle(vehicleId.id).subscribe({
+          next: () => {
+            this.dataSource.data = this.dataSource.data.filter(v => v.id !== vehicleId.id);
+            this.spinnerService.stopSpinner();
+            this.notificationService.success('Veículo removido com sucesso!')
+          }, error: () => {
+            this.carregando = false;
+            this.spinnerService.stopSpinner();
+            this.notificationService.error('Não foi possível remover o veículo.')
+          }
         });
       }
     });
