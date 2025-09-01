@@ -6,12 +6,14 @@ import { MatSort } from '@angular/material/sort';
 import { SharedModule } from '../../../../shared/shared.module';
 import { VehiclesService } from '../../../vehicles.service';
 import { SpinnerService } from '../../../../shared/spinner/spinner.service';
-import { take } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { EditVehicleDialogComponent } from '../../../../shared/components/edit-vehicle-dialog/edit-vehicle-dialog.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../core/services/notification.service';
+import { HttpClientModule } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -23,7 +25,7 @@ export class VehiclesListComponent {
   displayedColumns = ['id', 'placa', 'chassi', 'renavam', 'modelo', 'marca', 'ano', 'acoes'];
   dataSource = new MatTableDataSource<Vehicle>([]);
   carregando = true;
-
+  private destroy$ = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -36,6 +38,11 @@ export class VehiclesListComponent {
     this.loadVehicles();
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -44,7 +51,9 @@ export class VehiclesListComponent {
 
   private loadVehicles() {
     this.spinnerService.startSpinner();
-    this.vehiclesService.getVehicles().subscribe({
+    this.vehiclesService.getVehicles()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (listVehicles) => {
         this.dataSource.data = listVehicles;
         this.carregando = false;
@@ -84,24 +93,24 @@ export class VehiclesListComponent {
     this.spinnerService.startSpinner();
 
     dialogRef.afterClosed().subscribe(updatedVehicle => {
-    if (updatedVehicle && JSON.stringify(updatedVehicle) !== JSON.stringify(vehicle)) {
-      this.vehiclesService.updateVehicle(updatedVehicle).subscribe({
-        next: () => {
-          const index = this.dataSource.data.findIndex(v => v.id === updatedVehicle.id);
-          if (index > -1) {
-            this.dataSource.data[index] = updatedVehicle;
-            this.dataSource._updateChangeSubscription();
+      if (updatedVehicle && JSON.stringify(updatedVehicle) !== JSON.stringify(vehicle)) {
+        this.vehiclesService.updateVehicle(updatedVehicle).subscribe({
+          next: () => {
+            const index = this.dataSource.data.findIndex(v => v.id === updatedVehicle.id);
+            if (index > -1) {
+              this.dataSource.data[index] = updatedVehicle;
+              this.dataSource._updateChangeSubscription();
+            }
+            this.notificationService.success('Veículo atualizado com sucesso!')
+            this.spinnerService.stopSpinner();
+          },
+          error: (err) => {
+            this.notificationService.error('Não foi possível atualizar o veículo.', err)
+            this.spinnerService.stopSpinner();
           }
-          this.notificationService.success('Veículo atualizado com sucesso!')
-          this.spinnerService.stopSpinner();
-        },
-        error: (err) => {
-          this.notificationService.error('Não foi possível atualizar o veículo.', err)
-          this.spinnerService.stopSpinner();
-        }
-      });
-    }
-  });
+        });
+      }
+    });
   }
 
   public deleteVehicle(vehicleId: Vehicle) {

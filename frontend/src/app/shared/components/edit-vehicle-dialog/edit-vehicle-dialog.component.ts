@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Vehicle } from '../../../vehicles/pages/vehicles.interface';
 import { SharedModule } from '../../shared.module';
-import { DateUtils } from '../../utils/date.utils';
+import { DateUtils } from '../../utils/date/date.utils';
 import { VehicleFormFactory } from '../../forms/vehicle-form-factory';
-import { formatVehicleData } from '../../utils/vehicle.utils';
-import { removeSpaces } from '../../utils/string.utils';
+import { formatVehicleData } from '../../utils/vehicle/vehicle.utils';
+import { removeSpaces } from '../../utils/string/string.utils';
 
 @Component({
   selector: 'app-edit-vehicle-dialog',

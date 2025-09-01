@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Vehicle } from '../../vehicles.interface';
 import { SharedModule } from '../../../../shared/shared.module';
 import { VehiclesService } from '../../../vehicles.service';
-import { DateUtils } from '../../../../shared/utils/date.utils';
+import { DateUtils } from '../../../../shared/utils/date/date.utils';
 import { VehicleFormFactory } from '../../../../shared/forms/vehicle-form-factory';
-import { formatVehicleData } from '../../../../shared/utils/vehicle.utils';
+import { formatVehicleData } from '../../../../shared/utils/vehicle/vehicle.utils';
 import { SpinnerService } from '../../../../shared/spinner/spinner.service';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { removeSpaces } from '../../../../shared/utils/string.utils';
+import { removeSpaces } from '../../../../shared/utils/string/string.utils';
 
 @Component({
   selector: 'app-vehicles-form',

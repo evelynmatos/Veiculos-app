@@ -13,11 +13,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [CommonModule],
   exports: [
     CommonModule,
+    HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
     MatTableModule,
