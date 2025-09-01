@@ -35,7 +35,7 @@ Este é o backend da aplicação de gerenciamento de veículos, construído com 
 
 4. Inicie o servidor:
 
-    npm start
+    node index.html
 
 ## O servidor vai rodar em http://localhost:3000
 
