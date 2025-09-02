@@ -1,13 +1,14 @@
 <mat-toolbar color="primary" class="header">
-  <img class="icon" src="assets/images/info-icon.png" alt="Info Veiculos">
-  <span class="title">Info Veículos</span>
+  <div class="divHeader" (click)="goToHome()">
+    <img class="icon" src="assets/images/info-icon.png" alt="Info Veiculos">
+    <span class="title">Info Veículos</span>
+  </div>
 
   <span class="spacer"></span>
 
   <div class="buttons-container">
     <button mat-button (click)="goToHome()">Home</button>
     <button mat-button (click)="goToVehicles()">Veículos</button>
-    <button mat-button>Cadastrar Veículo</button>
-    <button mat-button disabled>Sair</button>
+    <button mat-button (click)="goToRegisterVehicles()">Cadastrar Veículo</button>
   </div>
 </mat-toolbar>

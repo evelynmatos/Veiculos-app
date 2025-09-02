@@ -1,0 +1,104 @@
+.form-wrapper {
+    max-width: 75%;
+    margin: 100px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container-register {
+    background: #000;
+    padding: 28px;
+    color: #fff;
+    text-align: center;
+}
+
+.dialog-header h2 {
+    margin: 0;
+    font-size: 29px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.form-container {
+    background: #f9f9f9;
+    padding: 44px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+input {
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+input.ng-invalid.ng-touched {
+    border-color: #e74c3c;
+}
+
+small {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+button {
+    display: block;
+    margin: 64px auto 0 auto;
+    padding: 10px 24px;
+    background-color: transparent;
+    border: 2px solid #ffbc04;
+    border-radius: 1rem;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffbc04;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    background-color: #ffbc04;
+    color: #fff;
+}
+
+button:disabled {
+    background-color: #ccc;
+    border: 2px solid #ccc;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+    background: white;
+}
+
+thead th {
+    background-color: #ffbc04;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
