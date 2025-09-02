@@ -1,69 +1,62 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Vehicle } from '../../../vehicles/pages/vehicles.interface';
 import { SharedModule } from '../../shared.module';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+import { DateUtils } from '../../utils/date/date.utils';
+import { VehicleFormFactory } from '../../forms/vehicle-form-factory';
+import { formatVehicleData } from '../../utils/vehicle/vehicle.utils';
+import { removeSpaces } from '../../utils/string/string.utils';
 
 @Component({
   selector: 'app-edit-vehicle-dialog',
-  imports: [MatDialogModule, SharedModule, ReactiveFormsModule, MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule, CommonModule],
+  imports: [SharedModule],
   templateUrl: './edit-vehicle-dialog.component.html',
   styleUrl: './edit-vehicle-dialog.component.scss'
 })
 export class EditVehicleDialogComponent {
   vehicleForm: FormGroup;
-  currentYear = new Date().getFullYear();
-  maxYear = this.currentYear + 1;
+  currentYear = DateUtils.getCurrentYear();
+  maxYear = DateUtils.getMaxYear();
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditVehicleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public vehicleData: Vehicle
   ) {
-    this.vehicleForm = this.fb.group({
-      id: [this.vehicleData.id],
-      chassi: [{ value: this.vehicleData.chassi, disabled: true }, Validators.required],
-      placa: [{ value: this.vehicleData.placa, disabled: true }, Validators.required],
-      renavam: [{ value: this.vehicleData.renavam, disabled: true }, Validators.required],
-      modelo: [this.vehicleData.modelo, Validators.required],
-      marca: [this.vehicleData.marca, Validators.required],
-      ano: [
-        this.vehicleData.ano,
-        [
-          Validators.required,
-          Validators.pattern(/^\d{4}$/),
-          Validators.min(1980),
-          Validators.max(this.maxYear),
-        ]
-      ]
+    this.vehicleForm = VehicleFormFactory.createForm(this.fb, this.vehicleData, {
+      disableBaseFields: true,
+      maxYear: this.maxYear
     });
   }
 
   onSubmit(): void {
     if (this.vehicleForm.invalid) return;
-    else if (this.vehicleForm.valid) {
-      const { modelo, marca, ano } = this.vehicleForm.value;
 
-      const updatedVehicle: Vehicle = {
-        id: this.vehicleData.id,
-        placa: this.vehicleData.placa,
-        chassi: this.vehicleData.chassi,
-        renavam: this.vehicleData.renavam,
-        modelo,
-        marca,
-        ano
-      };
-      this.dialogRef.close(updatedVehicle);
-    }
+    const formattedData = formatVehicleData(this.vehicleForm.value);
+
+    const { modelo, marca, ano } = formattedData;
+
+    const updatedVehicle: Vehicle = {
+      id: this.vehicleData.id,
+      placa: this.vehicleData.placa,
+      chassi: this.vehicleData.chassi,
+      renavam: this.vehicleData.renavam,
+      modelo,
+      marca,
+      ano
+    };
+    this.dialogRef.close(updatedVehicle);
   }
 
   onCancel(): void {
     this.dialogRef.close(null);
+  }
+
+  onInputChange(controlName: string) {
+    const control = this.vehicleForm.get(controlName);
+    if (control) {
+      control.setValue(removeSpaces(control.value));
+    }
   }
 }

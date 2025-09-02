@@ -11,7 +11,7 @@ import { EmblaCarouselDirective, EmblaCarouselType } from 'embla-carousel-angula
 export class HomeComponent implements AfterViewInit {
 
   @ViewChild(EmblaCarouselDirective) embla!: EmblaCarouselDirective;
-  private emblaApi?: EmblaCarouselType;
+  public emblaApi?: EmblaCarouselType;
 
   options = {
     loop: true,

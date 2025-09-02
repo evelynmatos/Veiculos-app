@@ -20,7 +20,7 @@ export class NotificationService {
         this.show(message, ['notification', 'success-snackbar']);
     }
 
-    error(message: string): void {
+    error(message: string, error: string): void {
         this.show(message, ['notification', 'error-snackbar']);
     }
 
